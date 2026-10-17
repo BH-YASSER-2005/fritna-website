@@ -3,16 +3,16 @@ Public site at `/`, private admin at `/admin` (login at `/login`). No admin link
 
 ## Run locally
 1. Install Node.js 20+. In this folder: `npm install`
-2. Copy `.env.example` to `.env.local` and fill the 3 values (see Setup below).
+2. Copy `.env.example` to `.env.local` and fill the 3 values (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`) (see Setup below).
 3. `npm run dev` then open http://localhost:3000
 
 ## Setup (free tiers)
 1. **Supabase**: create a free project at supabase.com. SQL Editor > paste `supabase/migration.sql` > Run.
 2. Authentication > Sign In / Providers > turn **off** "Allow new users to sign up". Authentication > Users > **Add user** (your email + a strong password, auto-confirm).
 3. SQL Editor, run: `insert into public.admins (user_id) select id from auth.users where email = 'YOU@EXAMPLE.COM';`
-4. Project Settings > API: copy **Project URL** and the **anon public** key into `.env.local`. Never use the service_role key in this project.
+4. Project Settings > API: copy **Project URL** and the **publishable** key (older projects call it the "anon public" key) into `.env.local`. Never use the secret / service_role key in this project.
 5. **GitHub**: create a repository and push this folder (`git init`, `git add .`, `git commit`, `git remote add`, `git push`).
-6. **Vercel**: Add New > Project > import the repo > add the 3 environment variables > Deploy.
+6. **Vercel**: Add New > Project > import the repo > add the same 3 environment variables > Deploy.
 7. Set `NEXT_PUBLIC_SITE_URL` to your final address, then redeploy. Add Supabase Authentication > URL Configuration > Site URL = same address.
 
 ## Test after deploying

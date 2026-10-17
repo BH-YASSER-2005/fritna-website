@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { supabaseEnv } from "@/lib/env";
 export type Content = Record<string, string>;
 export type Product = { id: string; name: string; category: string | null; description: string | null; image_url: string | null; published: boolean; sort_order: number; is_sample: boolean };
 export const DEFAULTS: Content = {
@@ -12,7 +13,7 @@ export const DEFAULTS: Content = {
   seoTitle: "Fritna – French fries and potato products for professional kitchens",
   seoDesc: "Fritna prepares and supplies French fries and potato products to restaurants, hotels and food service businesses. Contact us for professional supply.",
 };
-const pub = () => createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false } });
+const pub = () => { const e = supabaseEnv(); if (!e) throw new Error("Supabase env missing"); return createClient(e.url, e.key, { auth: { persistSession: false } }); };
 export async function getContent(): Promise<Content> {
   const o = { ...DEFAULTS };
   try { const { data } = await pub().from("site_content").select("data").eq("id", 1).single();
